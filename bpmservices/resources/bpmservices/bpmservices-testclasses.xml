@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testclasses><bpmservices><testclass>com.hand.service.impl.DefaultBpmservicesServiceIntegrationTest</testclass><testclass>com.hand.jalo.BpmservicesTest</testclass></bpmservices></testclasses>
