@@ -8,13 +8,14 @@
  ("Confidential Information"). You shall not disclose such Confidential
  Information and shall use it only in accordance with the terms of the
  license agreement you entered into with SAP.
---><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+-->
+<extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
 
-	<extension abstractclassprefix="Generated" classprefix="Hepbase" managername="HepbaseManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="hepbase" usemaven="false">
+  <extension abstractclassprefix="Generated" classprefix="Hepbase" managername="HepbaseManager"
+    managersuperclass="de.hybris.platform.jalo.extension.Extension" name="hepbase" usemaven="false">
 
-		<requires-extension name="cockpit"/>
+    <coremodule generated="true" manager="com.hand.jalo.HepbaseManager" packageroot="com.hand"/>
 
-		<coremodule generated="true" manager="com.hand.jalo.HepbaseManager" packageroot="com.hand"/>
-	
-	</extension>
+  </extension>
 </extensioninfo>

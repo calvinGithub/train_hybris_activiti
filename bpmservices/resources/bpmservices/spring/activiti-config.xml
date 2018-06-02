@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+
+<!-- 
+  WARNING: This is the Spring WEB configuration file. If you want to replace
+  items or managers you have to do this from the extensions core configuration 
+  file (hepactiviti/resources/hepactiviti-spring.xml) 
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
+  <!--1、事务管理器 -->
+  <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <!--2、activiti引擎配置器 -->
+  <bean id="processEngineConfiguration"
+    class="org.activiti.spring.SpringProcessEngineConfiguration">
+    <property name="dataSource" ref="dataSource"/><!--数据源-->
+    <property name="transactionManager" ref="transactionManager"/><!--配置事务管理器-->
+    <property name="databaseSchemaUpdate" value="true"/><!--数据表的初始化方式-->
+    <property name="jobExecutorActivate" value="false"/><!--是否支持job或者异步事件的处理-->
+    <property name="history" value="full"/><!--配置历史信息登记 默认为audit-->
+    <property name="asyncExecutorEnabled" value="true"/>
+    <property name="asyncExecutorActivate" value="true"/>
+    <property name="idGenerator">
+      <bean class="org.activiti.engine.impl.persistence.StrongUuidGenerator"/><!--id生成策略-->
+    </property>
+    <!--<property name="typedEventListeners">-->
+      <!--<map>-->
+        <!--<entry key="TIMER_FIRED,ENTITY_CREATED">-->
+          <!--<list>-->
+            <!--<ref bean="flowTakeListener"/>-->
+          <!--</list>-->
+        <!--</entry>-->
+      <!--</map>-->
+    <!--</property>-->
+
+  </bean>
+
+  <!--3、自定义异步job执行器 -->
+  <!--<bean id="customJobExecutor"-->
+    <!--class="com.hand.ec.bpm.activiti.ext.manager.executor.HepCustomAsyncJobExecutor">-->
+  <!--</bean>-->
+
+  <!--4、activiti引擎 -->
+  <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">
+    <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+  </bean>
+
+  <!--5、activiti的交互api -->
+  <bean id="repositoryService" factory-bean="processEngine" factory-method="getRepositoryService"/>
+  <bean id="runtimeService" factory-bean="processEngine" factory-method="getRuntimeService"/>
+  <bean id="myTaskService" factory-bean="processEngine" factory-method="getTaskService"/>
+  <bean id="formService" factory-bean="processEngine" factory-method="getFormService"/>
+  <bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService"/>
+  <bean id="managementService" factory-bean="processEngine" factory-method="getManagementService"/>
+  <bean id="identityService" factory-bean="processEngine" factory-method="getIdentityService"/>
+
+</beans>
